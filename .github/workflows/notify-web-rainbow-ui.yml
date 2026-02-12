@@ -18,9 +18,11 @@ jobs:
           sudo apt-get install -y gh
 
       - name: Dispatch repository_dispatch to web-rainbow-ui
-        run: |
-          gh api --method POST repos/rainbow-mobile/web-rainbow-ui/dispatches \
-            -f event_type='sync-design-tokens' \
-            -f client_payload='{"source_repo":"minhe8564/rb-design-tokens","ref":"main","path":"tokens.json"}'
         env:
           GH_TOKEN: ${{ secrets.WEB_RAINBOW_UI_DISPATCH_TOKEN }}
+        run: |
+          gh api --method POST repos/rainbow-mobile/web-rainbow-ui/dispatches \
+            -f event_type=sync-design-tokens \
+            -F client_payload[source_repo]=minhe8564/rb-design-tokens \
+            -F client_payload[ref]=main \
+            -F client_payload[path]=tokens.json
