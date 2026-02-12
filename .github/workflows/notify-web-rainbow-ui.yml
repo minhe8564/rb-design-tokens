@@ -1,0 +1,19 @@
+name: Notify web-rainbow-ui to sync tokens
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tokens.json"
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch workflow to web-rainbow-ui
+        run: |
+          gh api repos/rainbow-mobile/web-rainbow-ui/dispatches \
+            -f event_type='sync-design-tokens' \
+            -f client_payload='{"source_repo":"minhe8564/rb-design-tokens","ref":"main"}'
+        env:
+          GH_TOKEN: ${{ secrets.WEB_RAINBOW_UI_DISPATCH_TOKEN }}
